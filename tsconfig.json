@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "lib": ["ES2022"],
+        "module": "commonjs",
+        "target": "es2022",
+        "outDir": "dist",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "moduleResolution": "node"
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.json"
+    ],
+    "extends": "@tsconfig/strictest/tsconfig"
+    /* 
+     * ts-node 10.9.1 does not currently support TypeScript 5+ features such as combined extend configs.
+     * https://github.com/tsconfig/bases/#what-about-combined-configs
+     */
+    // "extends": ["@tsconfig/strictest/tsconfig", "@tsconfig/node-lts/tsconfig"]
+}
+  
