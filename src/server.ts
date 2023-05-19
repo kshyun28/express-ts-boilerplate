@@ -1,15 +1,23 @@
-import express from 'express';
+import * as dotenv from 'dotenv';
+dotenv.config();
+import express, { json } from 'express';
 
-import { logger } from '@utils/logger';
+import { connectMongoDB } from '@loaders';
+import v1 from '@routes/v1';
+import { formatResponse, logger } from '@utils';
 
 const app = express();
 const port = 8000;
 
+app.use(json());
+
+connectMongoDB();
+
+app.use('/v1', v1);
+
 // Default route is 404
 app.all('*', (_req, res) => {
-  res.status(404).json({
-    message: 'Not Found',
-  });
+  res.status(404).json(formatResponse('Not found', null));
 });
 
 app.listen(port, () => {

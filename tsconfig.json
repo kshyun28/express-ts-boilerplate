@@ -11,7 +11,13 @@
         "moduleResolution": "node",
         "baseUrl": ".",
         "paths": {
-            "@utils/*": ["src/utils/*"],
+            "@controllers/*": ["src/controllers/*"],
+            "@errors": ["src/errors"],
+            "@models": ["src/models"],
+            "@loaders": ["src/loaders"],
+            "@services": ["src/services"],
+            "@routes/*": ["src/routes/*"],
+            "@utils": ["src/utils"],
         },
     },
     "include": [
