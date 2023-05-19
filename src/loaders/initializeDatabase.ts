@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
+import { MONGODB_URI } from '@config';
 import { logger } from '@utils';
-const uri = process.env['MONGODB_URI']!;
 
 export const connectMongoDB = async () => {
   try {
-    await mongoose.connect(uri);
+    await mongoose.connect(MONGODB_URI!);
   } catch (error: unknown) {
     logger.error('Failed to connect to database', { error });
   }

@@ -1,6 +1,6 @@
 import { Response } from 'express';
 
-import { BaseError } from 'src/errors/BaseError';
+import { BaseError } from '@errors';
 
 import { logger } from './logger';
 

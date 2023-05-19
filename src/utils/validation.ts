@@ -1,6 +1,6 @@
 import { Request } from 'express';
 
-import { BadRequestError } from 'src/errors/BadRequestError';
+import { BadRequestError } from '@errors';
 
 import { logger } from './logger';
 

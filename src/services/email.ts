@@ -1,15 +1,16 @@
 import { createTransport } from 'nodemailer';
 
+import { MAIL_PASSWORD, MAIL_USERNAME } from '@config';
+import { InternalServerError } from '@errors';
 import { logger } from '@utils';
-import { InternalServerError } from 'src/errors/InternalServerError';
 
 export const sendEmail = async (email: string) => {
   try {
     const transporter = createTransport({
       service: 'gmail',
       auth: {
-        user: process.env['MAIL_USERNAME'],
-        pass: process.env['MAIL_PASSWORD'],
+        user: MAIL_USERNAME,
+        pass: MAIL_PASSWORD,
       },
     });
 
