@@ -38,7 +38,7 @@ export const register = async (
 
     return res
       .status(200)
-      .json(formatResponse('User successfully registered', null));
+      .json(formatResponse('User successfully registered', user));
   } catch (error: unknown) {
     return errorResponse(res, error, 'User failed to register');
   }
