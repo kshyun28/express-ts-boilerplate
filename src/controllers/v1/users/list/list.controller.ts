@@ -3,10 +3,10 @@ import { Request, Response } from 'express';
 import { NotFoundError } from '@errors';
 import { IUser, User } from '@models';
 import {
+  errorResponse,
   filterUnauthenticatedUser,
   filterUser,
   formatResponse,
-  logger,
 } from '@utils';
 
 export const list = async (req: Request, res: Response): Promise<Response> => {
@@ -28,8 +28,7 @@ export const list = async (req: Request, res: Response): Promise<Response> => {
     }
 
     return res.status(200).json(formatResponse('Users List', { response }));
-  } catch (exception: unknown) {
-    logger.error(exception);
-    return res.status(500).json(null);
+  } catch (error: unknown) {
+    return await errorResponse(res, error, 'Failed to get users list');
   }
 };
