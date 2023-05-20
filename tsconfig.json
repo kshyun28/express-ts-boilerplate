@@ -21,6 +21,7 @@
             "@services": ["src/services"],
             "@utils": ["src/utils"],
         },
+        "typeRoots": ["./types"]
     },
     "include": [
         "src/**/*.ts",
