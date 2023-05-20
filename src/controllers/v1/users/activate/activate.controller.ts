@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { BadRequestError } from '@errors';
+import { BadRequestError, UnauthorizedError } from '@errors';
 import { User } from '@models';
 import { errorResponse, formatResponse } from '@utils';
 
@@ -9,7 +9,7 @@ export const activate = async (
   res: Response,
 ): Promise<Response> => {
   try {
-    const { userId } = req.params;
+    const { userId, token } = req.params;
 
     const user = await User.findOne({
       _id: userId,
@@ -20,6 +20,9 @@ export const activate = async (
     }
     if (user.active) {
       throw new BadRequestError('User is already active');
+    }
+    if (user.activationToken != token) {
+      throw new UnauthorizedError('Invalid activation token for user');
     }
 
     user.active = true;

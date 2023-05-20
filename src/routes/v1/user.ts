@@ -11,7 +11,7 @@ import {
 const router = Router();
 
 router.post('/register', register);
-router.patch('/activate/:userId', activate);
+router.patch('/activate/:userId/:token', activate);
 router.post('/login', login);
 router.get('/list', list);
 router.patch('/change-password', changePassword);
