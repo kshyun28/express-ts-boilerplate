@@ -3,7 +3,13 @@ import { Request, Response } from 'express';
 import { BadRequestError, InternalServerError } from '@errors';
 import { User } from '@models';
 import { sendEmail } from '@services';
-import { errorResponse, formatResponse, validateRequestBody } from '@utils';
+import {
+  errorResponse,
+  formatResponse,
+  hashPassword,
+  uuidv4,
+  validateRequestBody,
+} from '@utils';
 
 import { RegisterUserRequestSchema } from './register.validation';
 
@@ -24,17 +30,19 @@ export const register = async (
       throw new BadRequestError('User email already exists');
     }
 
+    const token = uuidv4;
     const user = new User({
       email,
-      password,
+      password: await hashPassword(password),
       firstName,
       lastName,
+      activationToken: token,
     });
     await user.save().catch((error: unknown) => {
       throw new InternalServerError('Failed to save user to database', error);
     });
 
-    await sendEmail(email);
+    await sendEmail(req, email);
 
     return res
       .status(200)

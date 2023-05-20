@@ -1,11 +1,18 @@
+import { Request } from 'express';
 import { createTransport } from 'nodemailer';
 
-import { MAIL_PASSWORD, MAIL_USERNAME } from '@config';
-import { InternalServerError } from '@errors';
+import { MAIL_PASSWORD, MAIL_USERNAME, PORT } from '@config';
+import { BadRequestError, InternalServerError } from '@errors';
+import { User } from '@models';
 import { logger } from '@utils';
 
-export const sendEmail = async (email: string) => {
+export const sendEmail = async (req: Request, email: string) => {
   try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new BadRequestError('User not found');
+    }
+
     const transporter = createTransport({
       service: 'gmail',
       auth: {
@@ -16,10 +23,15 @@ export const sendEmail = async (email: string) => {
 
     const info = await transporter.sendMail({
       from: '"no-reply" <no-reply@gmail.com>',
-      to: email,
-      subject: 'Hello',
-      text: 'Hello world',
-      html: '<b>Hello world</b>',
+      to: user.email,
+      subject: 'Activate your account',
+      html: `Hello user, 
+        <br>
+        <br>
+        Please activate your account here:
+        <br>
+        <b>PATCH</b> ${req.protocol}://${req.hostname}:${PORT}/v1/users/activate/${user._id}/${user.activationToken}
+      `,
     });
     logger.info(`Email sent: ${info.messageId}`);
   } catch (error: unknown) {

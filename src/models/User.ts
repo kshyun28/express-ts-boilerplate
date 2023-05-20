@@ -22,6 +22,9 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  activationToken: {
+    type: String,
+  },
   created: {
     type: Date,
     default: Date.now,
