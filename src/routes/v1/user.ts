@@ -8,7 +8,7 @@ import {
   login,
   register,
 } from '@controllers/v1/users';
-import { jwtVerifyOptional } from '@middlewares';
+import { jwtVerifyOptional, jwtVerifySameUser } from '@middlewares';
 
 const router = Router();
 
@@ -17,6 +17,6 @@ router.patch('/activate/:userId/:token', activate);
 router.post('/login', login);
 router.get('/list', jwtVerifyOptional, list);
 router.get('/details/:userId', jwtVerifyOptional, details);
-router.patch('/change-password', changePassword);
+router.patch('/change-password/:userId', jwtVerifySameUser, changePassword);
 
 export default router;

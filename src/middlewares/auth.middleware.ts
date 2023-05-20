@@ -1,17 +1,17 @@
 import { NextFunction, Request, Response } from 'express';
+import { Types } from 'mongoose';
 
 import { UnauthorizedError } from '@errors';
-import { logger, verifyJWT } from '@utils';
+import { User } from '@models';
+import { errorResponse, logger, verifyJWT } from '@utils';
 
-export const jwtVerify = (req: Request, _res: Response, next: NextFunction) => {
-  if (!req.headers.authorization) {
-    throw new UnauthorizedError('Authorization header required');
-  }
-
-  const authHeader = req.headers.authorization;
-  const token = authHeader.split(' ')[1];
-
+export const jwtVerify = (req: Request, res: Response, next: NextFunction) => {
   try {
+    if (!req.headers.authorization) {
+      throw new UnauthorizedError('Authorization header required');
+    }
+    const authHeader = req.headers.authorization;
+    const token = authHeader.split(' ')[1];
     if (!token) {
       throw new UnauthorizedError('Unauthorized');
     }
@@ -19,7 +19,38 @@ export const jwtVerify = (req: Request, _res: Response, next: NextFunction) => {
     return next();
   } catch (error) {
     logger.error(error);
-    throw new UnauthorizedError('Unauthorized');
+    return errorResponse(res, error, 'Unauthorized');
+  }
+};
+
+export const jwtVerifySameUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    if (!req.headers.authorization) {
+      throw new UnauthorizedError('Authorization header required');
+    }
+    const authHeader = req.headers.authorization;
+    const { userId } = req.params;
+    const token = authHeader.split(' ')[1];
+    if (!Types.ObjectId.isValid(userId!)) {
+      throw new UnauthorizedError('Unauthorized');
+    }
+    if (!token) {
+      throw new UnauthorizedError('Unauthorized');
+    }
+    // if JWT email is same as user being accessed
+    const email = verifyJWT(token);
+    const user = await User.findById(userId);
+    if (user?.email != email) {
+      throw new UnauthorizedError('Unauthorized');
+    }
+    return next();
+  } catch (error) {
+    logger.error(error);
+    return errorResponse(res, error, 'Unauthorized');
   }
 };
 
