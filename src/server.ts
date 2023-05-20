@@ -2,13 +2,13 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 import express, { json } from 'express';
 
+import { PORT } from '@config';
 import { connectMongoDB } from '@loaders';
 import { errorHandler } from '@middlewares';
 import v1 from '@routes/v1';
 import { formatResponse, logger } from '@utils';
 
 const app = express();
-const port = 8000;
 
 app.use(json());
 
@@ -23,6 +23,6 @@ app.all('*', (_req, res) => {
 
 app.use(errorHandler);
 
-app.listen(port, () => {
-  logger.info(`The application is listening on port ${port}!`);
+app.listen(PORT, () => {
+  logger.info(`The application is listening on port ${PORT}!`);
 });
