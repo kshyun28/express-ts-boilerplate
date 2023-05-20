@@ -1,2 +1,2 @@
-export { jwtVerify } from './auth.middleware';
+export { jwtVerify, jwtVerifyOptional } from './auth.middleware';
 export { errorHandler } from './error.middleware';
