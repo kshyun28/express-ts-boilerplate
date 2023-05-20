@@ -4,3 +4,4 @@ export { formatResponse, errorResponse } from './response';
 export { validateRequestBody } from './validation';
 export { hashPassword, comparePassword } from './bcrypt';
 export { uuidv4 } from './uuid';
+export { filterUser, filterUnauthenticatedUser } from './filter';

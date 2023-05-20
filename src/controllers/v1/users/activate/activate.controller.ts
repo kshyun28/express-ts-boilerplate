@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 
 import { BadRequestError, UnauthorizedError } from '@errors';
-import { User } from '@models';
-import { errorResponse, formatResponse } from '@utils';
+import { IUser, User } from '@models';
+import { errorResponse, filterUser, formatResponse } from '@utils';
 
 export const activate = async (
   req: Request,
@@ -30,7 +30,12 @@ export const activate = async (
 
     return res
       .status(200)
-      .json(formatResponse('User successfully activated', user));
+      .json(
+        formatResponse(
+          'User successfully activated',
+          filterUser(user as unknown as IUser),
+        ),
+      );
   } catch (error: unknown) {
     return errorResponse(res, error, 'User failed to activate');
   }

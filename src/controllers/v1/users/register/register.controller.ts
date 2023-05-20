@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 
 import { BadRequestError, InternalServerError } from '@errors';
-import { User } from '@models';
+import { IUser, User } from '@models';
 import { sendEmail } from '@services';
 import {
   errorResponse,
+  filterUser,
   formatResponse,
   hashPassword,
   uuidv4,
@@ -45,8 +46,13 @@ export const register = async (
     await sendEmail(req, email);
 
     return res
-      .status(200)
-      .json(formatResponse('User successfully registered', user));
+      .status(201)
+      .json(
+        formatResponse(
+          'User successfully registered',
+          filterUser(user as unknown as IUser),
+        ),
+      );
   } catch (error: unknown) {
     return errorResponse(res, error, 'User failed to register');
   }
