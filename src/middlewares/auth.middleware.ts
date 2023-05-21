@@ -62,18 +62,16 @@ export const jwtVerifyOptional = (
   _res: Response,
   next: NextFunction,
 ) => {
-  if (!req.headers.authorization) {
-    throw new UnauthorizedError('Authorization header required');
+  let token;
+  if (req.headers.authorization) {
+    const authHeader = req.headers.authorization;
+    token = authHeader.split(' ')[1];
   }
 
-  const authHeader = req.headers.authorization;
-  const token = authHeader.split(' ')[1];
-
   try {
-    if (!token) {
-      throw new UnauthorizedError('Unauthorized');
+    if (token) {
+      verifyJWT(token);
     }
-    verifyJWT(token);
     req.authenticated = true;
     return next();
   } catch (error) {
