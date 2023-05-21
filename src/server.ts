@@ -1,7 +1,7 @@
 import cors from 'cors';
 import * as dotenv from 'dotenv';
 dotenv.config();
-import express, { json } from 'express';
+import express, { Request, Response, json } from 'express';
 import { rateLimit } from 'express-rate-limit';
 import helmet from 'helmet';
 
@@ -18,6 +18,11 @@ const limiter = rateLimit({
   max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  message: async (_req: Request, res: Response) => {
+    res
+      .status(429)
+      .json(formatResponse('Too many requests, please try again later.', null));
+  },
 });
 
 // Middlewares
@@ -31,7 +36,7 @@ app.use(limiter);
 app.use('/v1', v1);
 
 // Default route is 404
-app.all('*', (_req, res) => {
+app.all('*', (_req: Request, res: Response) => {
   res.status(404).json(formatResponse('Not found', null));
 });
 
