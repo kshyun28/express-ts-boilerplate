@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
+    "start": "node -r tsconfig-paths/register dist/server.js",
     "start:dev": "nodemon",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "build": "rm -rf dist && tsc && tsc-alias"
   },
   "author": "Jasper Gabriel",
   "license": "MIT",
@@ -43,6 +45,7 @@
     "lint-staged": "^13.2.2",
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.6",
     "tsconfig-paths": "^4.2.0"
   }
 }
