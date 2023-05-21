@@ -4,5 +4,6 @@ export const {
   MAIL_PASSWORD,
   MONGODB_URI,
   JWT_SECRET,
+  JWT_EXPIRY,
   SALT_ROUNDS,
 } = process.env;
