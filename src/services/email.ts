@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { createTransport } from 'nodemailer';
 
-import { MAIL_PASSWORD, MAIL_USERNAME, PORT } from '@config';
+import { MAIL_PASSWORD, MAIL_USERNAME } from '@config';
 import { BadRequestError, InternalServerError } from '@errors';
 import { User } from '@models';
 import { logger } from '@utils';
