@@ -30,7 +30,7 @@ export const sendEmail = async (req: Request, email: string) => {
         <br>
         Please activate your account here:
         <br>
-        <b>PATCH</b> ${req.protocol}://${req.hostname}:${PORT}/v1/users/activate/${user._id}/${user.activationToken}
+        <b>PATCH</b> ${req.protocol}://${req.hostname}/v1/users/activate/${user._id}/${user.activationToken}
       `,
     });
     logger.info(`Email sent: ${info.messageId}`);

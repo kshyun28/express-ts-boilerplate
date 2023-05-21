@@ -10,6 +10,8 @@ import { formatResponse, logger } from '@utils';
 
 const app = express();
 
+app.enable('trust proxy');
+
 app.use(json());
 
 connectMongoDB();
