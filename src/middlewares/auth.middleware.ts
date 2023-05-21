@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import { Types } from 'mongoose';
 
-import { UnauthorizedError } from '@errors';
+import { ForbiddenError, UnauthorizedError } from '@errors';
 import { User } from '@models';
 import { errorResponse, logger, verifyJWT } from '@utils';
 
+// Returns 401 error when JWT is invalid
 export const jwtVerify = (req: Request, res: Response, next: NextFunction) => {
   try {
     if (!req.headers.authorization) {
@@ -23,6 +24,7 @@ export const jwtVerify = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+// Returns 403 error when JWT does not have privileges to access resource
 export const jwtVerifySameUser = async (
   req: Request,
   res: Response,
@@ -45,7 +47,7 @@ export const jwtVerifySameUser = async (
     const email = verifyJWT(token);
     const user = await User.findById(userId);
     if (user?.email != email) {
-      throw new UnauthorizedError('Unauthorized');
+      throw new ForbiddenError('Forbidden');
     }
     return next();
   } catch (error) {
@@ -54,6 +56,7 @@ export const jwtVerifySameUser = async (
   }
 };
 
+// Does not return 401 error when JWT is invalid
 export const jwtVerifyOptional = (
   req: Request,
   _res: Response,
