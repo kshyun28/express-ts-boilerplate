@@ -1,6 +1,9 @@
+import cors from 'cors';
 import * as dotenv from 'dotenv';
 dotenv.config();
 import express, { json } from 'express';
+import { rateLimit } from 'express-rate-limit';
+import helmet from 'helmet';
 
 import { PORT } from '@config';
 import { connectMongoDB } from '@loaders';
@@ -10,12 +13,21 @@ import { formatResponse, logger } from '@utils';
 
 const app = express();
 
-app.enable('trust proxy');
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
 
+// Middlewares
+app.enable('trust proxy'); // return 'https' when referencing req.protocol
 app.use(json());
+app.use(helmet());
+app.use(cors());
+app.use(limiter);
 
-connectMongoDB();
-
+// Routes
 app.use('/v1', v1);
 
 // Default route is 404
@@ -24,6 +36,8 @@ app.all('*', (_req, res) => {
 });
 
 app.use(errorHandler);
+
+connectMongoDB();
 
 app.listen(PORT, () => {
   logger.info(`The application is listening on port ${PORT}!`);
