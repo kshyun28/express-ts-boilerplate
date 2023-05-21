@@ -20,7 +20,9 @@ export const errorResponse = (
     error instanceof BaseError ? error.serializeErrors() : null;
   logger.error(logMessage, { error, serializedError });
   const message =
-    error instanceof BaseError ? error.message : 'Unhandled error';
+    error instanceof BaseError
+      ? error.message
+      : 'Something went wrong. Please try again later.';
   const statusCode = error instanceof BaseError ? error.statusCode : 500;
   const data = error instanceof BaseError ? error.data : null;
   return res.status(statusCode).json(formatResponse(message, data));

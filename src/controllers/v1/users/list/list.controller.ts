@@ -27,7 +27,7 @@ export const list = async (req: Request, res: Response): Promise<Response> => {
       });
     }
 
-    return res.status(200).json(formatResponse('Users List', { response }));
+    return res.status(200).json(formatResponse('Users List', response));
   } catch (error: unknown) {
     return await errorResponse(res, error, 'Failed to get users list');
   }

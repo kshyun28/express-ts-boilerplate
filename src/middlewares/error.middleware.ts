@@ -13,7 +13,9 @@ export const errorHandler = async (
     error instanceof BaseError ? error.serializeErrors() : null;
   logger.error(error.message, { error, serializedError });
   const message =
-    error instanceof BaseError ? error.message : 'Unhandled error';
+    error instanceof BaseError
+      ? error.message
+      : 'Something went wrong. Please try again later.';
   const statusCode = error instanceof BaseError ? error.statusCode : 500;
   const data = error instanceof BaseError ? error.data : null;
 
