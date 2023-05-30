@@ -1,6 +1,6 @@
+export { errorHandler } from './error.middleware';
 export {
   jwtVerify,
-  jwtVerifySameUser,
   jwtVerifyOptional,
+  jwtVerifySameUser,
 } from './auth.middleware';
-export { errorHandler } from './error.middleware';

@@ -4,13 +4,6 @@ import { BaseError } from '@errors';
 
 import { logger } from './logger';
 
-export const formatResponse = (message: string, data: unknown) => {
-  return {
-    message: message,
-    data: data,
-  };
-};
-
 export const errorResponse = (
   res: Response,
   error: unknown,
@@ -26,4 +19,11 @@ export const errorResponse = (
   const statusCode = error instanceof BaseError ? error.statusCode : 500;
   const data = error instanceof BaseError ? error.data : null;
   return res.status(statusCode).json(formatResponse(message, data));
+};
+
+export const formatResponse = (message: string, data: unknown) => {
+  return {
+    message: message,
+    data: data,
+  };
 };

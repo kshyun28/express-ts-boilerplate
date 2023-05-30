@@ -1,7 +1,7 @@
+export { comparePassword, hashPassword } from './bcrypt';
+export { errorResponse, formatResponse } from './response';
+export { filterUnauthenticatedUser, filterUser } from './filter';
 export { generateJWT, verifyJWT } from './jwt';
 export { logger } from './logger';
-export { formatResponse, errorResponse } from './response';
-export { validateRequestBody } from './validation';
-export { hashPassword, comparePassword } from './bcrypt';
 export { uuidv4 } from './uuid';
-export { filterUser, filterUnauthenticatedUser } from './filter';
+export { validateRequestBody } from './validation';

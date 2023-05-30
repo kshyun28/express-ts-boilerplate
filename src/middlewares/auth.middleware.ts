@@ -24,6 +24,31 @@ export const jwtVerify = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+// Does not return 401 error when JWT is invalid
+export const jwtVerifyOptional = (
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+) => {
+  let token;
+  if (req.headers.authorization) {
+    const authHeader = req.headers.authorization;
+    token = authHeader.split(' ')[1];
+  }
+
+  try {
+    if (token) {
+      verifyJWT(token);
+    }
+    req.authenticated = true;
+    return next();
+  } catch (error) {
+    logger.error(error);
+    req.authenticated = false;
+    return next();
+  }
+};
+
 // Returns 403 error when JWT does not have privileges to access resource
 export const jwtVerifySameUser = async (
   req: Request,
@@ -53,30 +78,5 @@ export const jwtVerifySameUser = async (
   } catch (error) {
     logger.error(error);
     return errorResponse(res, error, 'Unauthorized');
-  }
-};
-
-// Does not return 401 error when JWT is invalid
-export const jwtVerifyOptional = (
-  req: Request,
-  _res: Response,
-  next: NextFunction,
-) => {
-  let token;
-  if (req.headers.authorization) {
-    const authHeader = req.headers.authorization;
-    token = authHeader.split(' ')[1];
-  }
-
-  try {
-    if (token) {
-      verifyJWT(token);
-    }
-    req.authenticated = true;
-    return next();
-  } catch (error) {
-    logger.error(error);
-    req.authenticated = false;
-    return next();
   }
 };

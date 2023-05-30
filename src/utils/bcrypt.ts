@@ -5,16 +5,6 @@ import { InternalServerError } from '@errors';
 
 import { logger } from './logger';
 
-export const hashPassword = async (password: string) => {
-  try {
-    const salt = await genSalt(Number(SALT_ROUNDS!));
-    return await hash(password, salt);
-  } catch (error: unknown) {
-    logger.error(error);
-    throw new InternalServerError('Failed to hash password');
-  }
-};
-
 export const comparePassword = async (
   password: string,
   hashedPassword: string,
@@ -24,5 +14,15 @@ export const comparePassword = async (
   } catch (error: unknown) {
     logger.error(error);
     throw new InternalServerError('Failed to validate password');
+  }
+};
+
+export const hashPassword = async (password: string) => {
+  try {
+    const salt = await genSalt(Number(SALT_ROUNDS!));
+    return await hash(password, salt);
+  } catch (error: unknown) {
+    logger.error(error);
+    throw new InternalServerError('Failed to hash password');
   }
 };

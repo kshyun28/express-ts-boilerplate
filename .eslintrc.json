@@ -5,7 +5,7 @@
         "ecmaVersion": 2022,
         "sourceType": "module"
     },
-    "plugins": ["@typescript-eslint", "prettier", "import"],
+    "plugins": ["@typescript-eslint", "prettier", "import", "sort-exports"],
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
@@ -56,7 +56,8 @@
                     "caseInsensitive": true
                 }
             }
-        ]
+        ],
+        "sort-exports/sort-exports": ["error", {"sortDir": "asc"}]
     },
     "settings": {
         "import/resolver": {
