@@ -11,9 +11,9 @@ A [Node.js](https://nodejs.org/en) [TypeScript](https://www.typescriptlang.org/)
 
 ### Sample Application
 
-A sample application is currently deployed using [Heroku](https://dashboard.heroku.com/).
+~~A sample application is currently deployed using [Heroku](https://dashboard.heroku.com/).~~
 
-The API is publicly accessible for the meantime at https://express-ts-node-boilerplate.herokuapp.com.
+~~The API is publicly accessible for the meantime at https://express-ts-node-boilerplate.herokuapp.com.~~
 
 The Postman collection is available [here](https://www.postman.com/maintenance-operator-95050553/workspace/public/request/24506889-9e9ee6e6-adbb-4883-8844-1efbb07660b1).
 
